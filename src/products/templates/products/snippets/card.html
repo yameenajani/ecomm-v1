@@ -1,0 +1,58 @@
+<!-- <div class="card" style="width: 20rem;">
+  {% if instance.image %}
+    <a href="{{ instance.get_absolute_url }}"><img class="card-img-top" src="{{ instance.image.url }}" alt="{{ instance.title}} logo"></a>
+    {% endif %}
+  <div class="card-body">
+    <h4 class="card-title">{{ instance.title }}</h4>
+    <p class="card-text">{{ instance.description|linebreaks|truncatewords:14 }}</p>
+    
+    <div class='text-center'>
+        <a href="{{ instance.get_absolute_url }}" class="btn btn-primary my-2">View</a>
+        {% include 'products/snippets/update-cart.html' with product=instance cart=cart %}
+    </div>
+  </div>
+</div> -->
+
+<!-- Single Catagory -->
+  <!-- <a href="{{ instance.get_absolute_url }}">
+    {% if instance.image %}
+      <img src="{{ instance.image.url }}" alt="">
+    {% endif %}
+      <div class="hover-content">
+          <div class="line"></div>
+          <p>Rs. {{ instance.price }}</p>
+          <h4>{{ instance.title }}</h4>
+      </div>
+  </a>
+  {% include 'products/snippets/update-cart.html' with product=instance cart=cart %} -->
+
+
+  <!-- Single Product Area -->
+<div class="single-product-wrapper">
+    <div class="product-img">
+        <img src="{{ instance.image.url }}" alt="">
+    </div>
+
+    <div class="product-description d-flex align-items-center justify-content-between">
+        <div class="product-meta-data">
+            <div class="line"></div>
+            <p class="product-price">Rs. {{ instance.price }}</p>
+            <a href="{{ instance.get_absolute_url }}">
+                <h3>{{ instance.title }}</h3>
+            </a>
+        </div>
+        <div class="ratings-cart text-right">
+            <div class="ratings">
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+            </div>
+            <div class="cart">
+                {% include 'products/snippets/update-cart.html' with product=instance cart=cart type=1 %}
+            </div>
+        </div>
+    </div>
+</div>
+

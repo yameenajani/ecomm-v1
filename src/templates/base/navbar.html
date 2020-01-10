@@ -1,0 +1,128 @@
+{% load static %}
+{% url 'home' as home_url %}
+{% url 'contact' as contact_url %}
+{% url 'products:list' as product_list_url %}
+{% url 'login' as login_url %}
+{% url 'logout' as logout_url %}
+{% url 'register' as register_url %}
+
+{% url 'account:home' as account_url %}
+{% url 'cart:home' as cart_url %}
+
+  <!-- ##### Main Content Wrapper Start ##### -->
+  <div class="main-content-wrapper d-flex clearfix">
+
+      <div class="mobile-nav">
+          <div class="amado-navbar-brand">
+              <a href="{{ home_url }}"><img src="{% static 'img/core-img/logo.png' %}" alt=""></a>
+          </div>
+          <div class="amado-navbar-toggler">
+              <span></span><span></span><span></span>
+          </div>
+      </div>
+
+      <header class="header-area clearfix">
+          <div class="nav-close">
+              <i class="fa fa-close" aria-hidden="true"></i>
+          </div>
+          <div class="logo">
+              <a href="{{ home_url }}"><img src="{% static 'img/core-img/logo.png' %}" alt=""></a>
+          </div>
+          {% include 'search/snippets/search-form.html' %}
+          <br>
+          <nav class="amado-nav">
+              <ul>
+                  <li class="{% if request.path == home_url %}active{% endif %}"><a href="{{ home_url }}">Home</a></li>
+                  <li class="{% if request.path == contact_url %}active{% endif %}"><a href="{{ contact_url }}">Contact</a></li>
+                  <li class="{% if request.path == product_list_url %}active{% endif %}"><a href="{{ product_list_url }}">Products</a></li>
+                    {% if request.user.is_authenticated %}
+                    <li class="{% if request.path == account_url %}active{% endif %}">
+                     <a href="{{ account_url }}">
+                       Account
+                     </a>
+                    </li>
+                    <hr>
+                    <li><a class="dropdown-item" href="{{ logout_url }}">Logout</a></li>
+                   {% else %}
+                    <li class="nav-item {% if request.path == register_url %}active{% endif %}">
+                     <a class="nav-link" href="{{ register_url }}">Register</a>
+                   </li>
+                   <li class="nav-item {% if request.path == login_url %}active{% endif %}">
+                     <a class="nav-link" href="{{ login_url }}">Login</a>
+                   </li>
+                   {% endif %}             
+              </ul>
+          </nav>
+          <hr>
+          <div class="cart-fav-search mb-100">
+            <a href="{{ cart_url }}" class="cart-nav"><img src="{% static 'img/core-img/cart.png' %}" alt=""> Cart <span>{% if request.session.cart_items %}( {{ request.session.cart_items }} ){% endif %}</span></a>
+          </div>
+          <div class="amado-btn-group mt-30 mb-100">
+              <a href="#" class="btn amado-btn mb-15">%Discount%</a>
+              <a href="#" class="btn amado-btn active">New this week</a>
+          </div>
+
+          <div class="social-info d-flex justify-content-between">
+              <a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a>
+              <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+              <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+              <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+          </div>
+      </header>
+      <!-- Header Area End -->
+
+
+  
+<!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-3">
+   <div class='container'>
+  <a class="navbar-brand" href="{{ home_url }}">
+    <img src="//getbootstrap.com/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+    {% if brand_name %} {{brand_name }} {% else %}CFE eCommerce {% endif %}
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item {% if request.path == home_url %}active{% endif %}">
+        <a class="nav-link" href="{{ home_url }}">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item {% if request.path == contact_url %}active{% endif %}">
+        <a class="nav-link" href="{{ contact_url }}">Contact</a>
+      </li>
+      <li class="nav-item {% if request.path == product_list_url %}active{% endif %}">
+        <a class="nav-link" href="{{ product_list_url }}">Products</a>
+      </li>
+
+
+      {% if request.user.is_authenticated %}
+       <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Account
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item {% if request.path == account_url %}active{% endif %}" href="{{ account_url }}">Home</a>
+          <a class="dropdown-item" href="{{ account_url }}#billing">Billing</a>
+          <a class="dropdown-item" href="{% url "account:user-product-history" %}">History</a>
+          <a class='dropdown-item' href='{% url "library" %}'>Library</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="{{ logout_url }}">Logout</a>
+        </div>
+      </li>
+      {% else %}
+       <li class="nav-item {% if request.path == register_url %}active{% endif %}">
+        <a class="nav-link" href="{{ register_url }}">Register</a>
+      </li>
+      <li class="nav-item {% if request.path == login_url %}active{% endif %}">
+        <a class="nav-link" href="{{ login_url }}">Login</a>
+      </li>
+      {% endif %}
+      <li class="nav-item {% if request.path == cart_url %}active{% endif %}">
+        <a class="nav-link" href="{{ cart_url }}"><span class='navbar-cart-count'>{{ request.session.cart_items }}</span> <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+      </li>
+    </ul>
+    {% include 'search/snippets/search-form.html' %}
+  </div>
+</div>
+</nav> -->
