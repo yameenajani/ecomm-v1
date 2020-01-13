@@ -6,11 +6,11 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
       <title>ECommerce</title>
+      {% block base_head %}{% endblock %}
         {% include 'base/css.html' %}
-        {% block base_head %}{% endblock %}
     </head>
     <body>
-      {% include 'base/navbar.html' with brand_name='eCommerce' %}
+      {% include 'base/navbar.html' %}
         {% if messages %}
       <div class="alert alert-success messages">
           {% for message in messages %}
@@ -21,16 +21,10 @@
           {% endfor %}
       </div>
       {% endif %}
-      <div class="products-catagories-area clearfix">
-        <div class="amado-pro-catagory clearfix">
-
+      <div class="mx-5 my-2">
           {% block content %}{% endblock %}
-        </div>
       </div>
-      </div>
-      {% block javascript %}
-
-      {% endblock %}
+      {% block javascript %}{% endblock %}
         {% include 'base/js.html' %}
     </body>
   </html>

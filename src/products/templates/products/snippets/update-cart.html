@@ -7,9 +7,9 @@
         <div class='btn-group'> <a class='btn btn-link' href='/cart/'>In cart</a> <button type='submit' class='btn btn-link'>Remove?</button></div>
     {% else %}
         {% if type %}
-        <button type='submit' data-toggle="tooltip" data-placement="left" title="Add to Cart" style="border: none; cursor: pointer;"><img src="{% static 'img/core-img/cart.png' %}" alt=""></button>
+        <button type='submit' style="border: none; cursor: pointer; background: transparent;"><i class="fa fa-shopping-cart"></i></button>
         {% else %}
-        <button class="btn amado-btn" type='submit' data-toggle="tooltip" data-placement="left" title="Add to Cart">Add to Cart</button>
+        <button type='submit' style="border: none!important; color: white;"><a class="btn btn-black py-3 px-5">Add to Cart</a></button>
         {% endif %}
     {% endif %}
     </span>

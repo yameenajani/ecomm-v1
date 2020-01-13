@@ -1,8 +1,10 @@
 {% extends "base.html" %}
 
+{% load static %}
 
 {% block content %}
-
+{% url 'home' as home_url %}
+{% url 'products:list' as product_list_url %}
 
     <!-- <div class='row'>
         <div class='col-12 col-md-6'>
@@ -21,7 +23,7 @@
 
 
 <!-- Product Details Area Start -->
-<div class="single-product-area section-padding-100 clearfix">
+<!-- <div class="single-product-area section-padding-100 clearfix">
     <div class="container-fluid">
         <div class="row">
             <div class="col-12 col-lg-7">
@@ -68,7 +70,51 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
+
+<div class="hero-wrap hero-bread" style="background-image: url({% static 'img/bg_1.jpg' %});">
+    <div class="container">
+      <div class="row no-gutters slider-text align-items-center justify-content-center">
+        <div class="col-md-9 text-center">
+            <p class="breadcrumbs"><span class="mr-2"><a href="{{ home_url }}">Home</a></span> <span class="mr-2"><a href="{{ product_list_url }}">Product</a></span> <span>{{ object.title }}</span></p>
+          <h1 class="mb-0 bread">{{ object.title }}</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<section class="ftco-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 mb-5">
+                <a href="{{ object.image.url }}" class="image-popup"><img src="{{ object.image.url }}" class="img-fluid" alt="Colorlib Template"></a>
+            </div>
+            <div class="col-lg-6 product-details pl-md-5">
+                <h3>{{ object.title }}</h3>
+                <div class="rating d-flex">
+                        <p class="text-left mr-4">
+                            <a href="#" class="mr-2">5.0</a>
+                            <a href="#"><span class="fa fa-star"></span></a>
+                            <a href="#"><span class="fa fa-star"></span></a>
+                            <a href="#"><span class="fa fa-star"></span></a>
+                            <a href="#"><span class="fa fa-star"></span></a>
+                            <a href="#"><span class="fa fa-star"></span></a>
+                        </p>
+                        <p class="text-left mr-4">
+                            <a href="#" class="mr-2" style="color: #000;">100 <span style="color: #bbb;">Rating</span></a>
+                        </p>
+                        <p class="text-left">
+                            <a href="#" class="mr-2" style="color: #000;">500 <span style="color: #bbb;">Sold</span></a>
+                        </p>
+                    </div>
+                <p class="price"><span>Rs. {{ object.price }}</span></p>
+                <p>{{ object.description|linebreaks|truncatewords:80 }}
+                    </p>
+                    {% include 'products/snippets/update-cart.html' with product=object cart=cart type=0 %}
+                </div>
+        </div>
+    </div>
+</section>
 
 
 {% endblock %}
