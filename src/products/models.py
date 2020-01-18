@@ -2,6 +2,8 @@ import random
 import os
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
+from accounts.models import User
+
 
 from django.db import models
 from django.db.models import Q
@@ -11,6 +13,15 @@ from django.urls import reverse
 from ecommerce.aws.download.utils import AWSDownload
 from ecommerce.aws.utils import ProtectedS3Storage
 from ecommerce.utils import unique_slug_generator, get_filename
+
+
+
+class ProductCategories(models.Model):
+    category    = models.CharField(max_length=100)
+    
+    def __str__(self):
+        return self.category
+
 
 def get_filename_ext(filepath):
     base_name = os.path.basename(filepath)
@@ -39,6 +50,7 @@ class ProductQuerySet(models.query.QuerySet):
     def search(self, query):
         lookups = (Q(title__icontains=query) | 
                   Q(description__icontains=query) |
+                  Q(category__category__icontains=query) |
                   Q(price__icontains=query) |
                   Q(tag__title__icontains=query)
                   )
@@ -66,6 +78,8 @@ class ProductManager(models.Manager):
 
 
 class Product(models.Model):
+    #user            = models.ForeignKey(User,on_delete=models.PROTECT)
+    category        = models.ForeignKey(ProductCategories,on_delete=models.CASCADE)
     title           = models.CharField(max_length=120)
     slug            = models.SlugField(blank=True, unique=True)
     description     = models.TextField()
@@ -80,7 +94,11 @@ class Product(models.Model):
 
     def get_absolute_url(self):
         #return "/products/{slug}/".format(slug=self.slug)
-        return reverse("products:detail", kwargs={"slug": self.slug})
+        return reverse("products:detail", kwargs={"pk": self.pk})
+
+    #def get_absolute_url(self):
+        #return "/products/{slug}/".format(slug=self.slug)
+    #    return reverse("products:detail", kwargs={"slug": self.slug})
 
     def __str__(self):
         return self.title
@@ -120,6 +138,30 @@ def upload_product_file_loc(instance, filename):
     location = "product/{slug}/{id}/".format(slug=slug, id=id_)
     return location + filename #"path/to/filename.mp4"
 
+RATING_CHOICES = (
+    (1, '1'),
+    (2, '2'),
+    (3, '3'),
+    (4, '4'),
+    (5, '5'),
+)
+class ProductComments(models.Model):
+    user        = models.ForeignKey(User,on_delete=models.PROTECT)
+    product     = models.ForeignKey(Product,on_delete=models.PROTECT)
+    comment     = models.CharField(max_length=100)
+    rating      = models.IntegerField(choices=RATING_CHOICES)
+    
+    def __str__(self):
+        return self.user.full_name
+
+
+class ProductFAQ(models.Model):
+    product     = models.ForeignKey(Product,on_delete=models.PROTECT)
+    question     = models.CharField(max_length=100)
+    answer     = models.CharField(max_length=100)
+    
+    def __str__(self):
+        return self.product.title
 
 
 class ProductFile(models.Model):

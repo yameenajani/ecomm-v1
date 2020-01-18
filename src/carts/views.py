@@ -12,7 +12,7 @@ from addresses.models import Address
 from billing.models import BillingProfile
 from orders.models import Order
 from products.models import Product
-from .models import Cart
+from .models import Cart,Promocode
 
 
 import stripe
@@ -36,6 +36,11 @@ def cart_detail_api_view(request):
 
 def cart_home(request):
     cart_obj, new_obj = Cart.objects.new_or_get(request)
+    if request.method == 'POST':
+        promoname = request.POST.get('promo')
+        promo_obj = Promocode.objects.get(title__iexact=promoname)
+        cart_obj.promo=promo_obj
+        cart_obj.save()
     return render(request, "carts/home.html", {"cart": cart_obj})
 
 

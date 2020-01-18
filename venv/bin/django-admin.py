@@ -1,4 +1,4 @@
-#!/Users/yameen/Downloads/eCommerce-master/venv/bin/python3
+#!/Users/samyakgaur/Desktop/SIH/ecomm-v1/venv/bin/python3
 from django.core import management
 
 if __name__ == "__main__":

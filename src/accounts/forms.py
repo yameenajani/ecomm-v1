@@ -175,6 +175,7 @@ class RegisterForm(forms.ModelForm):
     fields, plus a repeated password."""
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
+    seller = forms.BooleanField(label='Are you a Seller?', required=False)
 
     class Meta:
         model = User
@@ -193,6 +194,9 @@ class RegisterForm(forms.ModelForm):
         user = super(RegisterForm, self).save(commit=False)
         user.set_password(self.cleaned_data["password1"])
         user.is_active = False # send confirmation email via signals
+        if self.cleaned_data.get('seller'):
+            user.is_seller = True
+            user.staff = True
         # obj = EmailActivation.objects.create(user=user)
         # obj.send_activation_email()
         if commit:

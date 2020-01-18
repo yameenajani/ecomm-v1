@@ -1,7 +1,9 @@
 from django import forms
 from django.contrib.auth import get_user_model
-
+from products.models import Product
 User = get_user_model()
+
+
 
 class ContactForm(forms.Form):
     fullname = forms.CharField(

@@ -1,4 +1,4 @@
-#!/Users/yameen/Downloads/eCommerce-master/venv/bin/python3
+#!/Users/samyakgaur/Desktop/SIH/ecomm-v1/venv/bin/python3
 import boto
 from boto.exception import S3ResponseError
 from boto.s3.connection import OrdinaryCallingFormat

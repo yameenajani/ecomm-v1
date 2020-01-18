@@ -58,6 +58,7 @@ class User(AbstractBaseUser):
     email       = models.EmailField(max_length=255, unique=True)
     full_name   = models.CharField(max_length=255, blank=True, null=True)
     is_active   = models.BooleanField(default=True) # can login 
+    is_seller   = models.BooleanField(default=False) # for seller 
     staff       = models.BooleanField(default=False) # staff user non superuser
     admin       = models.BooleanField(default=False) # superuser 
     timestamp   = models.DateTimeField(auto_now_add=True)

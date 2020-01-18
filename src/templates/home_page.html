@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
-
+{% url 'products:list' as product_list_url %}
 <title>Home Page Template</title>
 
 {% block base_head %}
@@ -8,26 +8,133 @@
 {% endblock %}
 
 {% block content %}
-<div class='text-center'>
-    <h1>{{ title }}</h1>
-    <h1>Hello, world we're working!</h1>
-</div>
 
+{% if request.user.is_authenticated and request.user.is_seller %}
 <div class='row'>
   <div class='col'>
-      <img src="{% static 'img/beach.jpg' %}" class='img-fluid' />
-      <p>{{ content }}</p>
+  <h3>Why don't you start by adding a product!</h3>
   </div>
+  <form method="post">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit" class="btn btn-primary">Sign in</button>
+  </form>
 </div>
-{% if request.user.is_authenticated %}
-<div class='row'>
-  <div class='col'>
-  <h1>Premium</h1>
-  {{ premium_content }}
+<button class="btn btn-primary" onclick="displayform()">Add a Product</button>
+{% else %}
+
+<section class="ftco-section">
+  <div class="container">
+    <div class="row no-gutters ftco-services">
+      <div class="col-md-3 text-center d-flex align-self-stretch">
+        <div class="media block-6 services mb-md-0 mb-4">
+          <div class="icon bg-color-1 active d-flex justify-content-center align-items-center mb-2">
+            <span class="fa fa-truck"></span>
+          </div>
+          <div class="media-body">
+            <h3 class="heading">Quick Shipping</h3>
+          </div>
+        </div>      
+      </div>
+      <div class="col-md-3 text-center d-flex align-self-stretch">
+        <div class="media block-6 services mb-md-0 mb-4">
+          <div class="icon bg-color-2 d-flex justify-content-center align-items-center mb-2">
+            <span class="fa fa-globe"></span>
+          </div>
+          <div class="media-body">
+            <h3 class="heading">Made in India</h3>
+          </div>
+        </div>    
+      </div>
+      <div class="col-md-3 text-center d-flex align-self-stretch">
+        <div class="media block-6 services mb-md-0 mb-4">
+          <div class="icon bg-color-3 d-flex justify-content-center align-items-center mb-2">
+            <span class="fa fa-trophy"></span>
+          </div>
+          <div class="media-body">
+            <h3 class="heading">Superior Quality</h3>
+          </div>
+        </div>      
+      </div>
+      <div class="col-md-3 text-center d-flex align-self-stretch">
+        <div class="media block-6 services mb-md-0 mb-4">
+          <div class="icon bg-color-4 d-flex justify-content-center align-items-center mb-2">
+            <span class="fa fa-phone"></span>
+          </div>
+          <div class="media-body">
+            <h3 class="heading">Support</h3>
+            <span>24/7 Support</span>
+          </div>
+        </div>      
+      </div>
+    </div>
   </div>
-</div>
+</section>
+
+<section class="ftco-section ftco-category ftco-no-pt">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="row">
+          <div class="col-md-6 order-md-last align-items-stretch d-flex">
+            <div class="category-wrap-2 img align-self-stretch d-flex" style="background-image: url({% static 'img/logo.png' %});">
+              <div class="text text-center">
+                <h2>Ethnic Arts</h2>
+                <p>Perfect for every Home</p>
+                <p><a href="{{ product_list_url }}" class="btn btn-primary">Shop now</a></p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="category-wrap img mb-4 d-flex align-items-end" style="background-image: url({% static 'img/handicrafts.jpg' %});">
+              <div class="text px-3 py-1">
+                <h2 class="mb-0"><a href="#">Handicrafts</a></h2>
+              </div>
+            </div>
+            <div class="category-wrap img d-flex align-items-end" style="background-image: url({% static 'img/paintings.jpg' %});">
+              <div class="text px-3 py-1">
+                <h2 class="mb-0"><a href="#">Paintings</a></h2>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="category-wrap img mb-4 d-flex align-items-end" style="background-image: url({% static 'img/artifact.jpg' %});">
+          <div class="text px-3 py-1">
+            <h2 class="mb-0"><a href="#">Artifacts</a></h2>
+          </div>    
+        </div>
+        <div class="category-wrap img d-flex align-items-end" style="background-image: url({% static 'img/blackwoman.jpg' %});">
+          <div class="text px-3 py-1">
+            <h2 class="mb-0"><a href="#">Jewellery</a></h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="ftco-section img" style="background-image: url({% static 'img/bgbgb.jpg' %});">
+  <div class="container">
+    <div class="row justify-content-end">
+      <div class="col-md-6 heading-section deal-of-the-day">
+        <span class="subheading" style="color: white;">Best Price For You</span>
+        <h2 class="mb-4">Deal of the day</h2>
+        <p style="color: black;">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia</p>
+        <h3><a href="#" style="color: white;">Textiles</a></h3>
+      </div>
+    </div>      
+  </div>
+</section>
+
+
+<hr>
+
+
 {% endif %}
 
 
 {% endblock %}
-

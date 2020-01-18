@@ -7,6 +7,13 @@ from products.models import Product
 
 
 User = settings.AUTH_USER_MODEL
+class Promocode(models.Model):
+    title       = models.CharField(max_length=10)
+    discount    = models.IntegerField()
+
+    def __str__(self):
+        return self.title
+
 
 class CartManager(models.Manager):
     def new_or_get(self, request):
@@ -22,6 +29,8 @@ class CartManager(models.Manager):
             cart_obj = Cart.objects.new(user=request.user)
             new_obj = True
             request.session['cart_id'] = cart_obj.id
+            print("New cart created :" + str(cart_obj))
+        print("cart exists:"+str(cart_obj))
         return cart_obj, new_obj
 
     def new(self, user=None):
@@ -38,6 +47,7 @@ class Cart(models.Model):
     total       = models.DecimalField(default=0.00, max_digits=100, decimal_places=2)
     updated     = models.DateTimeField(auto_now=True)
     timestamp   = models.DateTimeField(auto_now_add=True)
+    promo       = models.ForeignKey(Promocode,on_delete=models.PROTECT,blank=True,null=True)
 
     objects = CartManager()
 
@@ -72,9 +82,10 @@ m2m_changed.connect(m2m_changed_cart_receiver, sender=Cart.products.through)
 
 def pre_save_cart_receiver(sender, instance, *args, **kwargs):
     if instance.subtotal > 0:
-        instance.total = Decimal(instance.subtotal) * Decimal(1.08) # 8% tax
-    else:
-        instance.total = 0.00
+        instance.total = Decimal(instance.subtotal)
+    if instance.promo:
+        instance.total = instance.total - Decimal(Decimal(instance.subtotal)*(instance.promo.discount)/100)
+    
 
 pre_save.connect(pre_save_cart_receiver, sender=Cart)
 

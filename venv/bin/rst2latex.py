@@ -1,4 +1,4 @@
-#!/Users/yameen/Downloads/eCommerce-master/venv/bin/python3
+#!/Users/samyakgaur/Desktop/SIH/ecomm-v1/venv/bin/python3
 
 # $Id: rst2latex.py 5905 2009-04-16 12:04:49Z milde $
 # Author: David Goodger <goodger@python.org>

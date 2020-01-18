@@ -1,4 +1,4 @@
-#!/Users/yameen/Downloads/eCommerce-master/venv/bin/python3
+#!/Users/samyakgaur/Desktop/SIH/ecomm-v1/venv/bin/python3
 from boto.manage.server import Server
 if __name__ == "__main__":
     from optparse import OptionParser

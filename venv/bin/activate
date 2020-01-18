@@ -40,7 +40,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/Users/yameen/Downloads/eCommerce-master/venv"
+VIRTUAL_ENV="/Users/samyakgaur/Desktop/SIH/ecomm-v1/venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

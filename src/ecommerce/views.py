@@ -4,16 +4,17 @@ from django.shortcuts import render,redirect
 
 from .forms import ContactForm
 
-def home_page(request):
-    # print(request.session.get("first_name", "Unknown"))
-    # request.session['first_name']
-    context = {
-        "title":"Hello World!",
-        "content":" Welcome to the homepage.",
+def map_page(request):
 
+    return render(request, "map.htm")
+
+def home_page(request):
+    
+    
+    context = {
+        "title":"",
+        "content":"",
     }
-    if request.user.is_authenticated():
-        context["premium_content"] = "YEAHHHHHH"
     return render(request, "home_page.html", context)
 
 def about_page(request):

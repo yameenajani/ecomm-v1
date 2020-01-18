@@ -4,12 +4,28 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.views.generic import ListView, DetailView, View
 from django.shortcuts import render, get_object_or_404, redirect
-
+from .forms import comment_form
+from accounts.models import User
 from analytics.mixins import ObjectViewedMixin
 
 from carts.models import Cart
 
-from .models import Product, ProductFile
+from .models import Product, ProductFile,ProductComments,ProductFAQ
+from django.conf import settings
+from .forms import ProductForm
+
+def product_add(request):
+    if request.method == 'POST':
+        form = ProductForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/products/add/')
+    else:
+        form = ProductForm()
+    context={
+        'form':form
+    }
+    return render(request, "products/product_add.html",context)
 
 
 class ProductFeaturedListView(ListView):
@@ -89,13 +105,15 @@ class ProductDetailSlugView(ObjectViewedMixin, DetailView):
         #instance = get_object_or_404(Product, slug=slug, active=True)
         try:
             instance = Product.objects.get(slug=slug, active=True)
+            comments = ProductComments.objects.filter(product=instance)
+            print(comments)
         except Product.DoesNotExist:
             raise Http404("Not found..")
         except Product.MultipleObjectsReturned:
             qs = Product.objects.filter(slug=slug, active=True)
             instance = qs.first()
-        except:
-            raise Http404("Uhhmmm ")
+        #except:
+        #    raise Http404("Uhhmmm ")
         return instance
 
 import os
@@ -180,29 +198,31 @@ class ProductDetailView(ObjectViewedMixin, DetailView):
 
 
 def product_detail_view(request, pk=None, *args, **kwargs):
-    # instance = Product.objects.get(pk=pk, featured=True) #id
-    # instance = get_object_or_404(Product, pk=pk, featured=True)
-    # try:
-    #     instance = Product.objects.get(id=pk)
-    # except Product.DoesNotExist:
-    #     print('no product here')
-    #     raise Http404("Product doesn't exist")
-    # except:
-    #     print("huh?")
-
     instance = Product.objects.get_by_id(pk)
+    product_obj = Product.objects.filter(pk=pk)
+    print(User.objects.filter(email=request.user))
+    print(product_obj)
+    comments =ProductComments.objects.filter(product=instance)
+    faqs = ProductFAQ.objects.filter(product=instance)
     if instance is None:
         raise Http404("Product doesn't exist")
-    #print(instance)
-    # qs  = Product.objects.filter(id=pk)
-
-    # #print(qs)
-    # if qs.exists() and qs.count() == 1: # len(qs)
-    #     instance = qs.first()
-    # else:
-    #     raise Http404("Product doesn't exist")
-
+    if request.method == 'POST':
+        form = comment_form(request.POST)
+        comment= form.data['comment']
+        rating= form.data['rating']
+        ProductComments.objects.create(
+            user=request.user,
+            product=instance,
+            comment=comment,
+            rating=rating
+            )
+        return HttpResponseRedirect('/products/')
+    else:
+        form = comment_form()
     context = {
-        'object': instance
+        'object': instance,
+        'comments': comments,
+        'form':form,
+        'faqs':faqs
     }
     return render(request, "products/detail.html", context)

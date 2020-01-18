@@ -27,15 +27,16 @@ DEBUG = True
 ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1']
 
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'ajaniyameen@gmail.com' # sendgrid
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', 'YaAli786')
+EMAIL_HOST_USER = 'gaursamyak123@gmail.com' 
+EMAIL_HOST_PASSWORD = 'MyPassword1'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'Python ecommerce <ajaniyameen@gmail.com>'
+DEFAULT_FROM_EMAIL = 'Python ecommerce <gaursamyak123@gmail.com>'
 BASE_URL = '127.0.0.1:8000'
 
+
 MANAGERS = (
-    ('Yameen Ajani', "ajaniyameen@gmail.com"),
+    ('Samyak Gaur', "gaursamyak123@gmail.com"),
 )
 
 ADMINS = MANAGERS
@@ -51,7 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # third party
     'storages',
-
+    'crispy_forms',
     #our apps
     'accounts',
     'addresses',
@@ -73,7 +74,7 @@ LOGOUT_URL = '/logout/'
 FORCE_SESSION_TO_ONE = False
 FORCE_INACTIVE_USER_ENDSESSION= False
 
-
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MAILCHIMP_API_KEY = os.environ.get("MAILCHIMP_API_KEY")
 MAILCHIMP_DATA_CENTER = "us4"

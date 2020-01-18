@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load crispy_forms_tags %}
 {% load static %}
 
 {% block content %}
@@ -72,7 +72,7 @@
     </div>
 </div> -->
 
-<div class="hero-wrap hero-bread" style="background-image: url({% static 'img/bg_1.jpg' %});">
+<div class="hero-wrap hero-bread" style="background-image: url({% static 'img/bgb.jpg' %});">
     <div class="container">
       <div class="row no-gutters slider-text align-items-center justify-content-center">
         <div class="col-md-9 text-center">
@@ -107,13 +107,58 @@
                             <a href="#" class="mr-2" style="color: #000;">500 <span style="color: #bbb;">Sold</span></a>
                         </p>
                     </div>
+                    <div>
+                        <p>Category: {{ object.category.category }}</p>
+                    </div>
+                    <div>
+                        <p>Sold By: {{ object.user.full_name }}</p>
+                    </div>
                 <p class="price"><span>Rs. {{ object.price }}</span></p>
                 <p>{{ object.description|linebreaks|truncatewords:80 }}
                     </p>
                     {% include 'products/snippets/update-cart.html' with product=object cart=cart type=0 %}
                 </div>
+
+                <div class="container" style="border: 2px solid black; margin-bottom: 20px;">
+                    <h3>FAQs</h3>
+                    <hr>
+                    {% for faqs in faqs %}
+                    <B>Q. {{ faqs.question }}</B>
+                    <p><span class="fa fa-arrow-right"></span> {{ faqs.answer }}</p>
+                    <hr>
+                    {% endfor %}
+                </div>
+                <hr>
+                <br>
+                <br>
+                <div class="container py-3" style="border: 2px solid black;">
+                    <div class="row">
+                        <div class="col-sm-6 offset-3">
+                            <center><h3 >Comments</h3><hr></center>
+                            <div class="text-center">
+                                {% for comments in comments %}
+                                <p>By: {{comments.user.full_name}}</p>
+                                <span class="fa fa-quote-left"></span><span style="margin-left: 20px; margin-right: 20px;">{{comments.comment}}</span><span class="fa fa-quote-right"></span>
+                                <p>Rating: <b>{{ comments.rating }}</b></p>
+                                <hr>
+                                {% endfor %}
+                            </div>
+                            <br>
+                            <br>
+                            <h5>Add a comment</h5>
+                            <form  method='POST'>
+                                {% csrf_token %}
+                                {{ form|crispy }}
+                                <input type="submit" class="btn btn-info py-2 px-2">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                
+                
+            </div>
         </div>
-    </div>
+
 </section>
 
 
